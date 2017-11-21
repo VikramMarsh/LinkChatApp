@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --inline --content-base ./public",
     "build": "webpack --config ./webpack.config.js --progress --colors",
-    "serve": "npm build && node server.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
