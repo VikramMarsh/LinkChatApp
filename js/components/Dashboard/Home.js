@@ -46,7 +46,7 @@ class Home extends React.Component{
           data.users.map((user,index)=>this.setState({
             memberList:[
             ...this.state.memberList,
-            <Link key={index} to={"/dashboard/"+user.firstName} style={{ textDecoration: 'none' }}><ListItem primaryText={user.firstName}/></Link>
+            <ListItem key={index} primaryText={user.firstName}/>
             ]
           }))
         });

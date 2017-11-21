@@ -5,8 +5,8 @@ var server = require('http').createServer(app);
 var io=require('socket.io')(server);
 
 var bodyParser = require('body-parser');
-var config = require('./webpack.config.js');
-var webpack = require('webpack');
+// var config = require('./webpack.config.js');
+// var webpack = require('webpack');
 var mongoose=require('mongoose');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
@@ -21,10 +21,10 @@ var jwt=require('jsonwebtoken');
 var expressJWT = require('express-jwt');
 var configJWT=require('./config');
 
-var compiler = webpack(config);
+// var compiler = webpack(config);
 
-app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath}));
-app.use(webpackHotMiddleware(compiler));
+// app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath}));
+// app.use(webpackHotMiddleware(compiler));
 
 // Routing
 
@@ -45,11 +45,12 @@ app.get('/', (req, res) => {
 })
 
 //DB connection
-mongoose.connect('mongodb://localhost/chat');
+// mongoose.connect('mongodb://localhost/chat');
+mongoose.connect('mongodb://Marshall:Marshall@ds113826.mlab.com:13826/freechat',{useMongoClient :true})
 var appDB = mongoose.connection;
 appDB.on('error', console.error.bind(console, 'connection error:'));
 appDB.once('open', function() {
-    console.log("connnected with mongo");
+    console.log("Connnected with mongo");
 });
 
 //Socket Connection
@@ -191,7 +192,7 @@ io.on('connection',function(socket){
 });
 
 
-server.listen((process.env.PORT || 8080), function(){
+server.listen(port, function(){
   console.log('listening on *:8080');
 
 });

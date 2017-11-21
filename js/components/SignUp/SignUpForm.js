@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Checkbox from 'material-ui/Checkbox';
+import CircularProgress from 'material-ui/CircularProgress';
 
 
 import isEmpty from 'lodash/isEmpty';
@@ -125,7 +126,12 @@ class SignUpForm extends React.Component{
 				name="passwordConfirm"
 				errorText={(errors)?errors.passwordConfirm:''}/><br/><br/>
 
+
+
 			<RaisedButton label="Sign Up" primary={true} disabled={this.state.isLoading} onTouchTap={this.handleSignUp}/>
+			<div style={{textAlign:'center',marginTop:'10px'}}>
+			{this.state.isLoading?<CircularProgress />:''}
+			</div>
 		</div>
 		);
 }

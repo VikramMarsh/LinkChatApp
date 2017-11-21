@@ -52,8 +52,9 @@ handleLogin=()=>{
 			.then((res)=>res.json())
 
 			.then((data)=>{
-				
+				console.log(data)
 				if(data.success){
+					this.context.socket;
 					this.setState({isLoading:false});
 					localStorage.setItem('jwtToken',data.jwtToken);
 					this.props.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));

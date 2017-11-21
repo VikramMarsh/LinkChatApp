@@ -5,14 +5,13 @@ import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import Checkbox from 'material-ui/Checkbox';
 
+
 import Test from './../Test';
-
-
-
 
 const styles={
 	image:{
-		background:'url('+"./images/new.jpg"+')',
+		backgroundImage:'url('+"./images/new.jpg"+')',
+		height:'auto',
 		backgroundSize:'cover',
 		height:'650px'
 	},
@@ -20,7 +19,7 @@ const styles={
 			fontWeight:'bold'},
 	textLine:{color:'red',fontSize:70},
 	welcome:{fontFamily: 'Marcellus SC'+','+'serif',padding:200},
-	paper:{height:'650px'},
+	paper:{},
 	paperStructure:{paddingTop:100,paddingLeft:50,paddingRight:50,paddingBottom:100},
 };
 
@@ -32,6 +31,7 @@ export default class Welcome extends React.Component{
 	 	
 	 }
 
+ 
 	 componentWillReceiveProps(nextProps) {
 
 	 	if(nextProps.location.pathname=='/')
@@ -61,7 +61,7 @@ export default class Welcome extends React.Component{
 				<h1 style={styles.welcome}>Welcome To <span style={styles.text}>Link<span style={styles.textLine}>U</span></span></h1>
 			</div>
 
-			<Paper className="col-md-5" style={styles.paper}>
+			<div className="col-md-5" style={styles.paper}>
 
 			<div style={{float:'right',paddingTop:30,paddingRight:20}}>
 				<FlatButton secondary={true} label={this.state.buttonLabel} onTouchTap={this.handlebutton} />
@@ -71,7 +71,7 @@ export default class Welcome extends React.Component{
    				 
 				
 				</div>
-		 	</Paper>
+		 	</div>
 		</div>
 		);
 	}

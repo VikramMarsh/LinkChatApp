@@ -9,6 +9,9 @@ import ActionInfo from 'material-ui/svg-icons/action/info';
 import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
+import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 import ActionAccountBox from 'material-ui/svg-icons/action/account-box';
 import Avatar from 'material-ui/Avatar';
@@ -22,7 +25,7 @@ import io from 'socket.io-client';
 import {connectedUsers} from './../../actions/connectedClientsAction';
 import { bindActionCreators } from 'redux';
 import CircularProgress from 'material-ui/CircularProgress';
-import SocketConnection from './../../socket.service.js';
+import * as socketConnection from './../../socket_service.js';
 import * as message from './../../actions/messageAction';
 
 import {
@@ -42,18 +45,21 @@ class Dashboard extends React.Component{
   constructor(props) {
     super(props);
       console.log("inside dashboard const")
-      console.log(this.props);  
+      console.log(this.props);
+      this.state = {
+      open: false
+    }  
   }
 
   getChildContext(){
     return {
-      socket: SocketConnection.getSocketConnection()
+      socket:socketConnection.getSocketConnection()
     }
   }
 
   componentWillMount() {
 
-    socket=SocketConnection.getSocketConnection();
+    socket=socketConnection.getSocketConnection();
 
       socket.on('connect',()=>{
         socket.emit('username',{username:this.props.user.username,email:this.props.user.email});
@@ -101,9 +107,28 @@ class Dashboard extends React.Component{
 
     this.props.signout().then(()=>{
       socket.disconnect();
+      socketConnection.deleteSocket();
       this.props.router.push('/');
     });
+     this.setState({
+      open: false,
+    });
   }
+
+   handleTouchTap = (event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+
+    this.setState({
+      open: true
+    });
+  }
+
+ handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
 
   render(){
 
@@ -113,18 +138,26 @@ class Dashboard extends React.Component{
     <AppBar
       style={{position:'fixed'}}
       title={<p>LINK<span style={{color:'red',fontSize:40}}>U</span></p>}
-      iconElementLeft={<img src="/images/logo.png"height="50px" width="50px"/>}
+      iconElementLeft={<img src="/images/logo.png" height="50px" width="50px"/>}
       iconStyleLeft={{paddingLeft:20}}
       titleStyle={{fontFamily: 'Bowlby One SC'+','+'cursive',fontWeight:'bold',paddingLeft:30}}
-      iconElementRight={<FlatButton onTouchTap={this.logout} label="Logout" />}
+      iconElementRight={
+        <FlatButton onTouchTap={this.logout} label="Logout" />
+      }
     />
+
 
     <Drawer open={true}
         containerStyle={{zIndex:0}}>
-        <div style={{textAlign:'center',paddingTop:90,paddingBottom:30}}>
-           <Avatar size={120}>
-                A
-           </Avatar>
+        <div style={{textAlign:'center',paddingTop:90,paddingBottom:15}}>
+           <Avatar size={120} src="./images/28272555-man-character-face-avatar-in-glasses.jpg"/>
+        </div>
+        <div style={{textAlign: 'center',
+                     fontSize: '26px',
+                     fontFamily: 'Roboto',
+                      marginBottom: '12px',
+                      fontWeight: 200}}>
+          {this.props.user.username || 's'}
         </div>
         <List>
           <Link to={'/home'} style={{ textDecoration: 'none' }}><ListItem  primaryText="Home" leftIcon={<ContentInbox />} /></Link>
