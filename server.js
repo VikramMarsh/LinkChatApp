@@ -191,7 +191,7 @@ io.on('connection',function(socket){
 });
 
 
-server.listen(port, function(){
+server.listen((process.env.PORT || 8080), function(){
   console.log('listening on *:8080');
 
 });
