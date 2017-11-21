@@ -54,7 +54,7 @@ export function getSocketConnection() {
         console.log("inside new socket")
 
         // standard connectiong procedure
-        self.socket = IO({ // adapt to your server
+        self.socket = IO('/',{ // adapt to your server
           'transports': ['websocket', 'polling'],
           'query':'jwtToken=' + localStorage.jwtToken,
         });
